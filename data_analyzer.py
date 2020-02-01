@@ -76,7 +76,7 @@ def predict_w_model(data, labels=None):
 
 if __name__=='__main__':
     combined_lab1_df = load_df(reload=False)
-    print(combined_lab1_df)
+    # print(combined_lab1_df)
     training_labels = combined_lab1_df.groupby(['activity', 'team', 'file index']).count().reset_index()['activity']
     regression_params = ['xAccl','yAccl','zAccl','xGyro','yGyro','zGyro']
     combined_lab1_df['time'] = combined_lab1_df['time'].astype('datetime64[s]')
@@ -85,6 +85,24 @@ if __name__=='__main__':
         # pd.Grouper(key='time', freq='10S')
     )
     logistic_regression_target = group_data_by_file.var().reset_index()
+    old_df_cols = logistic_regression_target.columns
+    variance_col_names = ['activity', 'team', 'file index'] + ['VAR-' + col_name
+                                                               for col_name in old_df_cols[3:]]
+    logistic_regression_target.rename(mapper={logistic_regression_target.columns[col_index]:variance_col_names[col_index]
+                                              for col_index in range(0, logistic_regression_target.shape[1])},
+                                      axis=1,
+                                      inplace=True)
+
+    median_vals = group_data_by_file.median().reset_index()
+    median_col_names = ['activity', 'team', 'file index'] + ['MED-' + col_name
+                                                           for col_name in old_df_cols[3:]]
+
+    print(median_col_names)
+    exit(0)
+    # logistic_regression_target.join()
+    print(logistic_regression_target)
+    print(group_data_by_file.mean().join())
+    exit(0)
     # print(logistic_regression_target.groupby('activity').mean())
     clf = LogisticRegression(multi_class='multinomial')
     model = clf.fit(logistic_regression_target[regression_params], logistic_regression_target['activity'])
