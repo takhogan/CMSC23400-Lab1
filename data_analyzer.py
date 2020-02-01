@@ -25,7 +25,10 @@ def parse_data_file(filename):
     return file_df
 
 
-if __name__=='__main__':
+def load_df(reload=True):
+    if not reload:
+        return pd.read_csv('combined_lab1_df.csv', index_col=0)
+
     driving_files = glob.glob('traindata_lab1/*-Driving-[0-9]*.txt')
 
     jumping_files = glob.glob('traindata_lab1/*-Jumping-[0-9]*.txt')
@@ -34,10 +37,16 @@ if __name__=='__main__':
 
     walking_files = glob.glob('traindata_lab1/*-Walking-[0-9]*.txt')
 
-
     combined_lab1_df = pd.DataFrame()
     for file in driving_files + jumping_files + standing_files + walking_files:
         print(file)
         combined_lab1_df = combined_lab1_df.append(parse_data_file(file), ignore_index=True)
 
     combined_lab1_df.to_csv('combined_lab1_df.csv')
+
+    return combined_lab1_df
+
+
+if __name__=='__main__':
+    combined_lab1_df = load_df(reload=False)
+    print(combined_lab1_df)
