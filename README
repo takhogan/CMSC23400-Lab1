@@ -1,0 +1,29 @@
+requirements.txt
+
+please install all necessary python dependencies with
+
+pip install requirements.txt
+
+data_analyzer.py
+
+Contains the actual algorithm and data analysis for activity
+detection. The report/algorithm explanation can be found within
+the comments. The file is executable and will report results
+as requested.
+
+speed.py
+
+speed.py is a separate tool created to report the magnitude of
+the average velocity vector from acceleration. It was calculated
+using the formula: int(a(t)dt, 0, t), 
+where a(t) = ax(t) + ay(t) + az(t)
+
+graph.py
+
+To design the algorithm descriped in data_analyzer.py, we first
+graphed the data visually, to help understand what features of 
+each activity the algorithm could look for. To see these graphs
+for yourself, run graph.py.
+
+Please note that the program will open all the graphs in your
+web browser at one.
