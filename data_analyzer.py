@@ -49,4 +49,6 @@ def load_df(reload=True):
 
 if __name__=='__main__':
     combined_lab1_df = load_df(reload=False)
-    print(combined_lab1_df)
+    group_data_by_file = combined_lab1_df.groupby(['activity', 'team', 'file index'])['xAccl','yAccl','zAccl']
+    group_data_by_file.var().to_excel('variance_grouped_by_file.xlsx')
+    # print(group_data_by_file.var())
